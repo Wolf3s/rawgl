@@ -1,0 +1,26 @@
+EE_BIN = rawgl-ps2.elf
+
+EE_OBJS = aifcplayer.o bitmap.o file.o engine.o graphics_soft.o \
+	script.o mixer.o pak.o resource.o resource_nth.o \
+	resource_win31.o resource_3do.o scaler.o screenshot.o systemstub_sdl.o sfxplayer.o \
+	staticres.o unpack.o util.o video.o main.o
+
+EE_INCS = -I$(PS2SDK)/ee/include -I$(PS2SDK)/ports/include/SDL2 -I$(PS2SDK)/ports/include/mt32emu -I$(PS2SDK)/ports/include
+EE_LDFLAGS = -L$(PS2SDK)/ports/lib -L$(PS2SDK)/iop/lib/ -L$(PS2SDK)/ee/lib/ -L$(PS2DEV)/gsKit/lib -s
+EE_LIBS = -lSDL2main -lSDL2_mixer -lmodplug -lxmp -lSDL2 -laudsrv -latomic -lgskit -ldma -ldmakit -ldebug -lps2_drivers -lpatches -lconfig -ldraw -lstdc++ -lm -lc -lmt32emu -lz
+EE_CFLAGS = -fno-strict-aliasing -O3 -G0 -Wall -W -g
+EE_CXXFLAGS = $(EE_CFLAGS) -DBYPASS_PROTECTION -D__PS2__
+
+all: $(EE_BIN)
+
+clean: 
+	rm -fr $(EE_BIN) $(EE_OBJS)
+	
+run:
+	cd bin; ps2client -h $(PS2LINK_IP) execee host$(EE_BIN)
+
+reset:
+	ps2client reset
+
+include $(PS2SDK)/samples/Makefile.pref
+include $(PS2SDK)/samples/Makefile.eeglobal

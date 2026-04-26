@@ -113,16 +113,33 @@ static void parseScaler(char *name, Scaler *s) {
 	}
 }
 
+#ifdef __PS2__
+static const int DEFAULT_WINDOW_W = 320;
+static const int DEFAULT_WINDOW_H = 200;
+#else
 static const int DEFAULT_WINDOW_W = 640;
 static const int DEFAULT_WINDOW_H = 400;
+#endif
 
 int main(int argc, char *argv[]) {
+#ifdef __PS2__
+	char *dataPath = SDL_GetBasePath();
+#else
 	char *dataPath = 0;
+#endif
 	int part = 16001;
 	Language lang = LANG_FR;
+#ifdef __PS2__
+	int graphicsType = GRAPHICS_SOFTWARE;
+#else
 	int graphicsType = GRAPHICS_GL;
+#endif
 	DisplayMode dm;
+#ifdef __PS2__
+	dm.mode   = DisplayMode::FULLSCREEN;
+#else
 	dm.mode   = DisplayMode::WINDOWED;
+#endif
 	dm.width  = DEFAULT_WINDOW_W;
 	dm.height = DEFAULT_WINDOW_H;
 	dm.opengl = (graphicsType == GRAPHICS_GL);
@@ -132,6 +149,7 @@ int main(int argc, char *argv[]) {
 	bool defaultGraphics = true;
 	bool demo3JoyInputs = false;
 	bool useMT32 = false;
+#ifndef __PS2__
 	if (argc == 2) {
 		// data path as the only command line argument
 		struct stat st;
@@ -139,6 +157,7 @@ int main(int argc, char *argv[]) {
 			dataPath = strdup(argv[1]);
 		}
 	}
+#endif
 	while (1) {
 		static struct option options[] = {
 			{ "datapath", required_argument, 0, 'd' },
