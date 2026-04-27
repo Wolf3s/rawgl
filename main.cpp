@@ -123,7 +123,11 @@ int main(int argc, char *argv[]) {
 	char *dataPath = 0;
 #endif
 	int part = 16001;
+#ifdef __PS2__
+	Language lang = LANG_US;
+#else
 	Language lang = LANG_FR;
+#endif
 #ifdef __PS2__
 	int graphicsType = GRAPHICS_SOFTWARE;
 #else
