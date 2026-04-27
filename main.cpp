@@ -113,13 +113,8 @@ static void parseScaler(char *name, Scaler *s) {
 	}
 }
 
-#ifdef __PS2__
-static const int DEFAULT_WINDOW_W = 320;
-static const int DEFAULT_WINDOW_H = 200;
-#else
 static const int DEFAULT_WINDOW_W = 640;
 static const int DEFAULT_WINDOW_H = 400;
-#endif
 
 int main(int argc, char *argv[]) {
 #ifdef __PS2__
@@ -249,7 +244,11 @@ int main(int argc, char *argv[]) {
 			return 0;
 		}
 	}
-	g_debugMask = DBG_INFO; // | DBG_VIDEO | DBG_SND | DBG_SCRIPT | DBG_BANK | DBG_SER;
+#ifdef __PS2__
+	g_debugMask = DBG_INFO | DBG_VIDEO;
+#else
+	g_debugMask = DBG_INFO // | DBG_VIDEO | DBG_SND | DBG_SCRIPT | DBG_BANK | DBG_SER;
+#endif
 	Engine *e = new Engine(dataPath, part);
 	if (defaultGraphics) {
 		// if not set, use original software graphics for 199x and 3DO versions and GL for the anniversary releases

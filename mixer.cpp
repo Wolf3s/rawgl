@@ -189,7 +189,7 @@ static const uint8_t *loadWav(const uint8_t *data, int &freq, int &len, bool &bi
 
 struct Mixer_impl {
 
-	static const int kMixFreq = 22050;
+	static const int kMixFreq = 44100;
 	static const SDL_AudioFormat kMixFormat = AUDIO_S16SYS;
 	static const int kMixSoundChannels = 2;
 	static const int kMixBufSize = 4096;
